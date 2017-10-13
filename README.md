@@ -44,7 +44,7 @@ Edit your /opt/rt4/etc/RT_SiteConfig.pm to include these config values:
 Create a Scrip in the queue which you want this extension to work in.
 
 * Condition 'On Create'
-* Action 'MatchupExternalTicketingsystems'
+* Action 'Matchup External Ticketingsystems'
 * Template 'Blank'
 
 # AUTHORS

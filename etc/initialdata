@@ -1,0 +1,7 @@
+@ScripActions = (
+   {
+       Name => 'Matchup External Ticketingsystems',
+       Description => 'Automatically merge into RT ticket when matching external ticket id is found',
+       ExecModule => 'MatchupExternalTicketingsystems',
+   },
+);

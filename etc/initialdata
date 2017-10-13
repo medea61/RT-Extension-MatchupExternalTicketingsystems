@@ -5,3 +5,13 @@
        ExecModule => 'MatchupExternalTicketingsystems',
    },
 );
+
+@CustomFields = (
+    {
+        Name => 'External Ticket ID',
+        Type => 'Freeform',
+        Description => 'Ticket ID in external ticket system',
+        LookupType => 'RT::Queue-RT::Ticket',
+        MaxValues => 1,
+    },
+);

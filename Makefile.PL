@@ -1,7 +1,7 @@
 use inc::Module::Install;
 
 RTx     'RT-Extension-MatchupExternalTicketingsystems';
-license 'gplv2';
+license 'mit';
 repository 'https://github.com/medea61/rt-extension-matchupexternalticketingsystems';
 
 requires_rt '4.0.0';

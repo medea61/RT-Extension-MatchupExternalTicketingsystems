@@ -39,7 +39,6 @@ Edit your /opt/rt4/etc/RT_SiteConfig.pm to include these config values:
 
     Set(@METSKnownSenders, 'tickteystem@example.com');
     Set(@METSTicketRegexp, 'TKTS-\d{4} ');
-    Set($METSCFFieldID, 4);
 
 # USE
 Create a Scrip in the queue which you want this extension to work in.

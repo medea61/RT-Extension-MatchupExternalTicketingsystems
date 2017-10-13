@@ -14,6 +14,7 @@ sub _PrepareOwner {
 
     # grab list of senders to check against subject-regexp
     my @senders = RT->Config->Get('METSKnownSenders');
+    
     # grab list of subject-regexp to match
     my @ticketregexp = RT->Config->Get('METSTicketRegexp');
 
@@ -51,8 +52,9 @@ sub Prepare {
     my $Transaction = $self->TransactionObj;
     my $Subject = $Transaction->Subject;
 
-    # grab list of senders to check against subject-regexp
-    my $CFFieldId = RT->Config->Get('METSCFFieldID');
+    # lookup CustomField ID
+    my $CF = RT->CustomField->LoadByName('External Ticket ID');
+    my $CFFieldId = $CF->id;
 
     $RT::Logger->debug("METS - about to set custom field with external ticket id");
 
@@ -81,8 +83,9 @@ sub Commit {
     my $Transaction = $self->TransactionObj;
     my $Subject = $Transaction->Subject;
 
-    # grab list of senders to check against subject-regexp
-    my $CFFieldId = RT->Config->Get('METSCFFieldID');
+    # lookup CustomField ID
+    my $CF = RT->CustomField->LoadByName('External Ticket ID');
+    my $CFFieldId = $CF->id;
 
     $RT::Logger->debug("METS - looking up external ticket id");
     my $externalTicketID = $Ticket->FirstCustomFieldValue($CFFieldId); #<-- load the custom field value

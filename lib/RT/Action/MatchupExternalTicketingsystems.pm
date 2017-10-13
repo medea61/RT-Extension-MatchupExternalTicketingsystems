@@ -53,8 +53,8 @@ sub Prepare {
     my $Subject = $Transaction->Subject;
 
     # lookup CustomField ID
-    my $CF = RT->CustomField->LoadByName('External Ticket ID');
-    my $CFFieldId = $CF->id;
+    my $CustomField = RT::CustomField->LoadByName('External Ticket ID');
+    my $CustomFieldId = $CustomField->id;
 
     $RT::Logger->debug("METS - about to set custom field with external ticket id");
 
@@ -69,7 +69,7 @@ sub Prepare {
 
     # create CustomField on ticket and write external id to it
     my $cf = RT::CustomField->new ( $RT::SystemUser );
-    $cf->Load($CFFieldId); #<-- ID of the custom field from step 1
+    $cf->Load($CustomFieldId);
     $Ticket->AddCustomFieldValue ( Field => $cf, Value => $externalTicketID );
 
     $RT::Logger->debug("METS - set custom field with external ticket id: " . $externalTicketID);
@@ -84,17 +84,17 @@ sub Commit {
     my $Subject = $Transaction->Subject;
 
     # lookup CustomField ID
-    my $CF = RT->CustomField->LoadByName('External Ticket ID');
-    my $CFFieldId = $CF->id;
+    my $CustomField = RT::CustomField->LoadByName('External Ticket ID');
+    my $CustomFieldId = $CustomField->id;
 
     $RT::Logger->debug("METS - looking up external ticket id");
-    my $externalTicketID = $Ticket->FirstCustomFieldValue($CFFieldId); #<-- load the custom field value
+    my $externalTicketID = $Ticket->FirstCustomFieldValue($CustomFieldId);
     $RT::Logger->debug("METS - found external ticket id: " . $externalTicketID);
 
     # find all the ticket to the reference number from ticketsystem 
     my $search = new RT::Tickets(RT->SystemUser);
     $RT::Logger->debug("METS - searching database for tickets matching external id");
-    $search->LimitCustomField(CUSTOMFIELD => $CFFieldId, OPERATOR => '=', VALUE => $externalTicketID);
+    $search->LimitCustomField(CUSTOMFIELD => $CustomFieldId, OPERATOR => '=', VALUE => $externalTicketID);
 
     while (my $foundticket = $search->Next) {
         $RT::Logger->debug("METS - found ticket: " . $foundticket->Id);

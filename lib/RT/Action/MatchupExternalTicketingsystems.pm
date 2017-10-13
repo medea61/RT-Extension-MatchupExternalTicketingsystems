@@ -53,7 +53,7 @@ sub Prepare {
     my $Subject = $Transaction->Subject;
 
     # lookup CustomField ID
-    my $CustomField = RT::CustomField->LoadByName('External Ticket ID');
+    my $CustomField = RT::CustomField->LoadByName( Name => 'External Ticket ID' );
     my $CustomFieldId = $CustomField->id;
 
     $RT::Logger->debug("METS - about to set custom field with external ticket id");
@@ -84,7 +84,7 @@ sub Commit {
     my $Subject = $Transaction->Subject;
 
     # lookup CustomField ID
-    my $CustomField = RT::CustomField->LoadByName('External Ticket ID');
+    my $CustomField = RT::CustomField->LoadByName( Name => 'External Ticket ID' );
     my $CustomFieldId = $CustomField->id;
 
     $RT::Logger->debug("METS - looking up external ticket id");
@@ -92,8 +92,8 @@ sub Commit {
     $RT::Logger->debug("METS - found external ticket id: " . $externalTicketID);
 
     # find all the ticket to the reference number from ticketsystem 
-    my $search = new RT::Tickets(RT->SystemUser);
     $RT::Logger->debug("METS - searching database for tickets matching external id");
+    my $search = new RT::Tickets(RT->SystemUser);
     $search->LimitCustomField(CUSTOMFIELD => $CustomFieldId, OPERATOR => '=', VALUE => $externalTicketID);
 
     while (my $foundticket = $search->Next) {
@@ -102,10 +102,8 @@ sub Commit {
         # ignore if finding the new ticket itself
         next if $Ticket->Id == $foundticket->Id;
 
-        # Logging
-        $RT::Logger->info("METS - Merging ticket " . $Ticket->Id . " into " . $foundticket->Id . " because of Reference number " . $externalTicketID . " match.");
-
         # merge Tickets
+        $RT::Logger->info("METS - Merging ticket " . $Ticket->Id . " into " . $foundticket->Id . " because of Reference number " . $externalTicketID . " match.");
         $Ticket->MergeInto($foundticket->Id);
     } 
 

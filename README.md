@@ -14,6 +14,7 @@ Works with RT 4.4.2
     perl Makefile.PL
     make
     make install
+    make initdb
 
 May need root permissions
 

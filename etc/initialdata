@@ -1,3 +1,12 @@
+@Scrips = (
+    {
+        Description    => 'Automatically merge tickets when containing external ticketingsystem ids',
+        ScripCondition => 'On Create',
+        ScripAction    => 'Matchup External Ticketingsystems',
+        Template       => 'Blank',
+    },
+);
+
 @ScripActions = (
    {
        Name => 'Matchup External Ticketingsystems',
@@ -10,6 +19,7 @@
     {
         Name => 'External Ticket ID',
         Type => 'Freeform',
+        Disabled    => 0,
         Description => 'Ticket ID in external ticket system',
         LookupType => 'RT::Queue-RT::Ticket',
         MaxValues => 1,

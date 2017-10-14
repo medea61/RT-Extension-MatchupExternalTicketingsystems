@@ -4,6 +4,7 @@
         ScripCondition => 'On Create',
         ScripAction    => 'Matchup External Ticketingsystems',
         Template       => 'Blank',
+        Disabled       => 1,
     },
 );
 

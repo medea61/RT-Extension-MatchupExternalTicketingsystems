@@ -30,7 +30,7 @@ sub Prepare {
     return 0 unless $Transaction->Type eq "Create";
 
     # without a subject there is nothing to match
-    return 0 unless defined($subject);
+    return 0 unless defined($Subject);
 
     $RT::Logger->debug("METS - checking for known external ticket ids");
 
@@ -39,12 +39,12 @@ sub Prepare {
     foreach my $regexp (@ticketregexp) {
         if ( $Subject =~ /($regexp)/) {
             $RT::Logger->debug("METS - found known external ticket id");
-            foreach (@ticketsender) {
+            foreach (@senders) {
                 if ($ticketRequestor =~ /$_/) {
                     $RT::Logger->debug("METS - found external ticket id and permitted sender");
 
                     $RT::Logger->debug("METS - about to set custom field with external ticket id");
-                    $externalTicketID = $Subject;
+                    my $externalTicketID = $Subject;
                     $externalTicketID =~ s/.*($regexp).*/$1/;
 
                     # create CustomField on ticket and write external id to it

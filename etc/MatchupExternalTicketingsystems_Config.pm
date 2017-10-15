@@ -1,9 +1,9 @@
 Set(@METSKnownSenders, [qw(
-        "tickteystem@example.com"
+        tickteystem@example.com
     )]) unless @METSKnownSenders;
 
 Set(@METSTicketRegexp, [qw(
-        "TKTS-\d{4} "
+        TKTS-\d{4}
     )]) unless @METSTicketRegex;
 
 1;

@@ -1,3 +1,5 @@
+Set($METSCFName, 'External Ticket ID') unless @METSCFName;
+
 Set(@METSKnownSenders, [qw(
         tickteystem@example.com
     )]) unless @METSKnownSenders;

@@ -1,4 +1,7 @@
 Revision history for RT-Extension-MatchupExternalTicketingsystems
 
-0.01 [Release Date]
+1.01 2017-10-15
+ - made custom field name configureable
+
+1.00 2017-10-15
  - Initial version

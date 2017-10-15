@@ -26,9 +26,11 @@ sub Prepare {
     my $ticketregexp = RT->Config->Get('METSTicketRegexp');
     $RT::Logger->debug("METS - RegExps: " . Dumper($ticketregexp));
 
-    # load CustomField
+    # load CustomField and -Name
+    my $CustomFieldName = RT->Config->Get('METSCFName');
+    $RT::Logger->debug("METS - RegExps: " . Dumper($ticketregexp));
     my $CustomField = RT::CustomField->new($RT::SystemUser);
-    $CustomField->LoadByName( Name => 'External Ticket ID' );
+    $CustomField->LoadByName( Name => $CustomFieldName );
 
     # we are only catching new ticket creation here
     return 0 unless $Transaction->Type eq "Create";
@@ -63,12 +65,12 @@ sub Prepare {
 
                     $RT::Logger->debug("METS - about to set custom field with external ticket id");
                     # create CustomField on ticket and write external id to it
-                    unless (defined($Ticket->FirstCustomFieldValue('External Ticket ID'))) {
+                    unless (defined($Ticket->FirstCustomFieldValue($CustomFieldName))) {
                         $Ticket->AddCustomFieldValue ( Field => $CustomField, Value => $externalTicketID );
                         $RT::Logger->debug("METS - set custom field with external ticket id: " . $externalTicketID);
                     }
                     else {
-                        $RT::Logger->debug("METS - STRANGE. custom field was previously set with external ticket id: " . $Ticket->FirstCustomFieldValue('External Ticket ID'));
+                        $RT::Logger->debug("METS - STRANGE. custom field was previously set with external ticket id: " . $Ticket->FirstCustomFieldValue($CustomFieldName));
                     }
 
                     return 1;
@@ -86,18 +88,21 @@ sub Commit {
     my $Transaction = $self->TransactionObj;
     my $Subject = $Transaction->Subject;
 
+    # load CustomField and -Name
+    my $CustomFieldName = RT->Config->Get('METSCFName');
+    
     # lookup CustomField ID
     my $CustomField = RT::CustomField->new($RT::SystemUser);
-    $CustomField = $CustomField->LoadByName( Name => 'External Ticket ID' );
+    $CustomField = $CustomField->LoadByName( Name => $CustomFieldName );
 
     $RT::Logger->debug("METS - looking up external ticket id");
-    my $externalTicketID = $Ticket->FirstCustomFieldValue('External Ticket ID');
+    my $externalTicketID = $Ticket->FirstCustomFieldValue($CustomFieldName);
     $RT::Logger->debug("METS - found external ticket id: " . $externalTicketID);
 
     # find all the ticket to the reference number from ticketsystem 
     $RT::Logger->debug("METS - searching database for tickets matching external id");
     my $search = new RT::Tickets(RT->SystemUser);
-    $search->LimitCustomField(CUSTOMFIELD => 'External Ticket ID', OPERATOR => '=', VALUE => $externalTicketID);
+    $search->LimitCustomField(CUSTOMFIELD => $CustomFieldName, OPERATOR => '=', VALUE => $externalTicketID);
 
     while (my $foundticket = $search->Next) {
         $RT::Logger->debug("METS - found ticket: " . $foundticket->Id);

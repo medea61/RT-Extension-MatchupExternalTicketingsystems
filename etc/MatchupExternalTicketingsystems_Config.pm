@@ -1,11 +1,11 @@
-Set($METSCFName, 'External Ticket ID') unless @METSCFName;
+Set($METSCFName, 'External Ticket ID') unless $METSCFName;
 
-Set(@METSKnownSenders, [qw(
+Set(@METSKnownSenders, qw(
         tickteystem@example.com
-    )]) unless @METSKnownSenders;
+    )) unless @METSKnownSenders;
 
-Set(@METSTicketRegexp, [qw(
+Set(@METSTicketRegexp, qw(
         TKTS-\d{4}
-    )]) unless @METSTicketRegex;
+    )) unless @METSTicketRegex;
 
 1;

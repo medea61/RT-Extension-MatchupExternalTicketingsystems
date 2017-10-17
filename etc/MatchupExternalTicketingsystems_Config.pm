@@ -6,6 +6,6 @@ Set(@METSKnownSenders, qw(
 
 Set(@METSTicketRegexp, qw(
         TKTS-\d{4}
-    )) unless @METSTicketRegex;
+    )) unless @METSTicketRegexp;
 
 1;

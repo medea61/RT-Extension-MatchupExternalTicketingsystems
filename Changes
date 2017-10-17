@@ -1,5 +1,9 @@
 Revision history for RT-Extension-MatchupExternalTicketingsystems
 
+1.03 2017-10-17
+- fixed a typo which resulted in error messages with every cli-based rt command
+- tested against RT 4.4.2
+
 1.02 2017-10-15
  - fixed issues in default config
  - ammended documentation

@@ -8,7 +8,7 @@ willing keep the RT ticket marker in the subject. But they still keep their
 own ticket id in the subject. Cue in: this extension... :)
 
 # RT VERSION
-Works with RT 4.4.2
+Works with RT 4.4.4
 
 # INSTALLATION
     perl Makefile.PL
@@ -16,7 +16,15 @@ Works with RT 4.4.2
     make install
     make initdb
 
-May need root permissions
+> Ubuntu packaged installations per-default are missing some
+> build-dependencies. Try to run these commands before 'perl Makefile.PL':
+> 
+> ```
+> apt install make
+> cpan Module::Install::RTx
+> ```
+
+Installation needs root permissions.
 
 Edit your /opt/rt4/etc/RT_SiteConfig.pm
 If you are using RT 4.2 or greater, add this line:
